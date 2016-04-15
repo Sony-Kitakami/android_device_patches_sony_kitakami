@@ -5,48 +5,49 @@ TORCH_DIR := $(LOCAL_PATH)/patched/frameworks/base/packages/SystemUI/src/com/and
 
 ifeq ($(SOMC_PLATFORM), kitakami)
 
-ifneq ($(wildcard $(LOCAL_PATH)/PATCHED.1),)
+	ifneq ($(wildcard $(LOCAL_PATH)/PATCHED.1),)
 
-$(shell touch $(LOCAL_PATH)/PATCHED.1)
+		$(shell touch $(LOCAL_PATH)/PATCHED.1)
 
-$(shell echo "Applying Vold patch")
+		$(shell echo "Applying Vold patch")
 
-$(shell rm $(VOLD_DIR)/Utils.cpp)
-$(shell rm $(VOLD_DIR)/Android.mk)
+		$(shell rm $(VOLD_DIR)/Utils.cpp)
+		$(shell rm $(VOLD_DIR)/Android.mk)
 
-$(shell cp $(LOCAL_PATH)/$(VOLD_DIR)/Utils.cpp $(VOLD_DIR)/)
-$(shell cp $(LOCAL_PATH)/$(VOLD_DIR)/Android.mk $(VOLD_DIR))
+		$(shell cp $(LOCAL_PATH)/$(VOLD_DIR)/Utils.cpp $(VOLD_DIR)/)
+		$(shell cp $(LOCAL_PATH)/$(VOLD_DIR)/Android.mk $(VOLD_DIR))
 
-$(shell echo "Applying torch patch" )
+		$(shell echo "Applying torch patch" )
 
-$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/FlashlightController.java $(TORCH_DIR)/)
+		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/FlashlightController.java $(TORCH_DIR)/)
+
+	endif
+
+else ifeq ($(wildcard $(LOCAL_PATH)/PATCHED.1)
+
+	$(shell mv $(LOCAL_PATH)/PATCHED.1 $(LOCAL_PATH)/PATCHED.0)
 
 endif
 
-elseif ($(wildcard $(LOCAL_PATH)/PATCHED.1)
-
-$(shell mv $(LOCAL_PATH)/PATCHED.1 $(LOCAL_PATH)/PATCHED.0)
-endif
-
-  ifeq ($(wildcard $(LOCAL_PATH)/PATCHED.0)
+ifeq ($(wildcard $(LOCAL_PATH)/PATCHED.0)
  
-   $(shell echo "Not building kitakami! Reverting kitakami patches!")
+	$(shell echo "Not building kitakami! Reverting kitakami patches!")
    
-   $(shell rm $(LOCAL_PATH)/PATCHED.0)
+	$(shell rm $(LOCAL_PATH)/PATCHED.0)
    
-$(shell echo "Reverting vold patches")
+	$(shell echo "Reverting vold patches")
    
-$(shell rm $(VOLD_DIR)/Utils.cpp)
-$(shell rm $(VOLD_DIR)/Android.mk)
+	$(shell rm $(VOLD_DIR)/Utils.cpp)
+	$(shell rm $(VOLD_DIR)/Android.mk)
 
-$(shell echo "Reverting Flashlight patches")
+	$(shell echo "Reverting Flashlight patches")
 
-$(shell rm $(TORCH_DIR)/FlashlightController.java)
+	$(shell rm $(TORCH_DIR)/FlashlightController.java)
 
-$(shell echo "Fetching unpatched versions")
+	$(shell echo "Fetching unpatched versions")
 
-$(shell repo sync --force-sync)
+	$(shell repo sync --force-sync)
 
-$(shell echo "Patches reverted!")
+	$(shell echo "Patches reverted!")
 
 endif
