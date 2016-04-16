@@ -118,14 +118,15 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
         boolean newState = !mState.value;
         refreshState(newState ? UserBoolean.USER_TRUE : UserBoolean.USER_FALSE);
-        mFlashlightController.setFlashlight(newState);
         checkToggleState ();
         if (checkToggleState() == false)
         {
+        	Log.i(TAG, "Toggle returns false");
             flashLightSwitch(false);
         }
         else if (checkToggleState() == true)
         {
+        	Log.i(TAG, "Toggle returns true");        	
             flashLightSwitch(true);
         }
     }
