@@ -38,6 +38,7 @@ import com.android.systemui.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.io.*;
 
 /**
  * Manages the flashlight.
@@ -90,6 +91,35 @@ public class FlashlightController {
         }
     };
 
+    /** Function serves as an direct "Light Switch" by using /sys/class/leds/torch-light1/brightness */
+    public void FlashLightSwitch(boolean switchState) 
+    {
+        try
+        {
+            File brightnessConfig = new File("/sys/class/leds/torch-light1/brightness");
+            FileOutputStream is = new FileOutputStream(brightnessConfig);
+            OutputStreamWriter osw = new OutputStreamWriter(is);    
+            Writer brightnessState = new BufferedWriter(osw);
+
+            if (switchState == true)
+            {
+               brightnessState.write("1"); // Turn Flashlight ON
+               brightnessState.close();
+            }
+            else
+            {
+               brightnessState.write("0"); // Turn Flashlight OFF
+               brightnessState.close();            
+            }
+
+            } 
+        
+        catch (IOException e) 
+        {
+            System.err.println("Problem writing to the file statsTest.txt");
+        }
+    }
+
     public FlashlightController(Context mContext) {
         this.mContext = mContext;
         mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
@@ -117,6 +147,7 @@ public class FlashlightController {
 
     public void setFlashlight(boolean enabled) {
         boolean pendingError = false;
+
         synchronized (this) {
             if (mFlashlightEnabled != enabled) {
                 mFlashlightEnabled = enabled;
@@ -130,11 +161,11 @@ public class FlashlightController {
 
                     if (mFlashlightEnabled == true)
                     {
-                    	Runtime.getRuntime().exec( "echo 1 > /sys/class/leds/torch-light1/brightness" ).waitFor();
+                    	FlashLightSwitch(true); // Toggle Flashlight ON
                     }
                     else
                     {
-                    	Runtime.getRuntime().exec( "echo 0 > /sys/class/leds/torch-light1/brightness" ).waitFor();
+                    	FlashLightSwitch(false); // Toggle Flashlight OFF
                     }
 
                 }
