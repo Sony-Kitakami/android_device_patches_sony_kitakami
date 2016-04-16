@@ -96,27 +96,26 @@ public class FlashlightController {
     {
         try
         {
-            File brightnessConfig = new File("/sys/class/leds/torch-light1/brightness");
-            FileOutputStream is = new FileOutputStream(brightnessConfig);
-            OutputStreamWriter osw = new OutputStreamWriter(is);    
-            Writer brightnessState = new BufferedWriter(osw);
-
+        
             if (switchState == true)
             {
-               brightnessState.write("1"); // Turn Flashlight ON
-               brightnessState.close();
+                Runtime.getRuntime().exec( "echo 1 > /sys/class/leds/torch-light1/brightness" ).waitFor();
             }
             else
             {
-               brightnessState.write("0"); // Turn Flashlight OFF
-               brightnessState.close();            
+                Runtime.getRuntime().exec( "echo 0 > /sys/class/leds/torch-light1/brightness" ).waitFor();
             }
 
-            } 
+        } 
         
         catch (IOException e) 
         {
             System.err.println("Problem writing to the file statsTest.txt");
+        }
+
+        catch(InterruptedException e)
+        {
+            System.out.println("got interrupted!");
         }
     }
 
