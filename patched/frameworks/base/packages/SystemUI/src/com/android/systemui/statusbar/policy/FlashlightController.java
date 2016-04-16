@@ -127,25 +127,20 @@ public class FlashlightController {
                     } else {
                         if (mWakeLock.isHeld()) mWakeLock.release();
                     }
-                }
 
-                try {
-                    mCameraManager.setTorchMode(mCameraId, enabled);
-                } catch (CameraAccessException e) {
-                    Log.e(TAG, "Couldn't set torch mode", e);
-                    mFlashlightEnabled = false;
-                    pendingError = true;
-
-                    if (mUseWakeLock && mWakeLock.isHeld()) {
-                        mWakeLock.release();
+                    if (mFlashlightEnabled == true)
+                    {
+                    	Runtime.getRuntime().exec( "echo 1 > /sys/class/leds/torch-light1/brightness" ).waitFor();
                     }
+                    else
+                    {
+                    	Runtime.getRuntime().exec( "echo 0 > /sys/class/leds/torch-light1/brightness" ).waitFor();
+                    }
+
                 }
             }
         }
         dispatchModeChanged(mFlashlightEnabled);
-        if (pendingError) {
-            dispatchError();
-        }
     }
 
     private void setNotificationShown(boolean showNotification) {
