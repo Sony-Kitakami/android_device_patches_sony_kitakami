@@ -19,10 +19,8 @@ ifeq ($(SOMC_PLATFORM), kitakami)
 
 		$(shell echo "Applying torch patch" )
 
-		$(shell rm $(TORCH_DIR)/statusbar/policy/)
 		$(shell rm $(TORCH_DIR)/qs/tiles/)
 
-		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/statusbar/policy/FlashlightController.java $(TORCH_DIR)/statusbar/policy/)
 		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/qs/tiles/FlashlightTile.java $(TORCH_DIR)/qs/tiles/)
 
 	endif
@@ -46,7 +44,6 @@ ifeq ($(wildcard $(LOCAL_PATH)/PATCHED.0)
 
 	$(shell echo "Reverting Flashlight patches")
 
-	$(shell rm $(TORCH_DIR)/statusbar/policy/)
 	$(shell rm $(TORCH_DIR)/qs/tiles/)
 
 	$(shell echo "Fetching unpatched versions")
