@@ -33,6 +33,54 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
             = new AnimationIcon(R.drawable.ic_signal_flashlight_disable_animation);
     private final FlashlightController mFlashlightController;
 
+    public boolean toggleState = new boolean(NULL);
+
+    /* Function : flashLightSwitch(boolean switchState) */
+    /* Serves as an direct "Light Switch" by using /system/bin/torch-on or /system/bin/torch-off  which chainloads access to /sys/class/leds/torch-light1/brightness */
+    public void flashLightSwitch(boolean switchState) 
+    {
+        try
+        {
+        
+            if (switchState == true)
+            {
+                Log.i(TAG, "Torch ON");
+                Runtime.getRuntime().exec( "torch-on" ); // Sets Torch ON
+            }
+            else
+            {
+                Log.i(TAG, "Torch OFF");             
+                Runtime.getRuntime().exec( "torch-off" ); // Sets Torch OFF
+            }
+
+        } 
+        
+        catch (IOException e) 
+        {
+            System.err.println("Problem executing torch");
+            Log.e(TAG, "IOException ERROR! Problem toggling torch");
+        }
+    }
+
+    public boolean checkToggleState()
+    {
+        if (toggleState == false)
+        {
+            toggleState = true;
+            return toggleState;
+        }
+        else if (toggleState = true)
+        {
+            toggleState = false;
+            return toggleState;
+        }
+        else
+        {
+            toggleState = false;
+            return toggleState;
+        }
+    }
+
     public FlashlightTile(Host host) {
         super(host);
         mFlashlightController = host.getFlashlightController();
@@ -67,6 +115,15 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         boolean newState = !mState.value;
         refreshState(newState ? UserBoolean.USER_TRUE : UserBoolean.USER_FALSE);
         mFlashlightController.setFlashlight(newState);
+        checkToggleState ();
+        if (checkToggleState() == false)
+        {
+            flashLightSwitch(false)
+        }
+        else if (checkToggleState() == true)
+        {
+            flashLightSwitch(true)
+        }
     }
 
     @Override
@@ -79,10 +136,8 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
                 return;
             }
             state.value = value;
-            mFlashlightController.flashLightSwitch(false);            
         } else {
             state.value = mFlashlightController.isEnabled();
-            mFlashlightController.flashLightSwitch(true);
         }
         final AnimationIcon icon = state.value ? mEnable : mDisable;
         icon.setAllowAnimation(arg instanceof UserBoolean && ((UserBoolean) arg).userInitiated);
