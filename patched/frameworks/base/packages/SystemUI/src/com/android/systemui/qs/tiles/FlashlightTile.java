@@ -23,6 +23,10 @@ import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.statusbar.policy.FlashlightController;
 
+import android.util.Log;
+
+import java.io.*;
+
 /** Quick settings tile: Control flashlight **/
 public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         FlashlightController.FlashlightListener {
@@ -33,7 +37,7 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
             = new AnimationIcon(R.drawable.ic_signal_flashlight_disable_animation);
     private final FlashlightController mFlashlightController;
 
-    public boolean toggleState = new boolean(NULL);
+    public Boolean toggleState = new Boolean(null);
 
     /* Function : flashLightSwitch(boolean switchState) */
     /* Serves as an direct "Light Switch" by using /system/bin/torch-on or /system/bin/torch-off  which chainloads access to /sys/class/leds/torch-light1/brightness */
@@ -118,11 +122,11 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         checkToggleState ();
         if (checkToggleState() == false)
         {
-            flashLightSwitch(false)
+            flashLightSwitch(false);
         }
         else if (checkToggleState() == true)
         {
-            flashLightSwitch(true)
+            flashLightSwitch(true);
         }
     }
 
