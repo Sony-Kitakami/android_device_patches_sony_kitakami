@@ -92,7 +92,7 @@ public class FlashlightController {
     };
 
     /** Function serves as an direct "Light Switch" by using /sys/class/leds/torch-light1/brightness */
-    public void FlashLightSwitch(boolean switchState) 
+    public void flashLightSwitch(boolean switchState) 
     {
         try
         {
@@ -156,15 +156,6 @@ public class FlashlightController {
                         if (!mWakeLock.isHeld()) mWakeLock.acquire();
                     } else {
                         if (mWakeLock.isHeld()) mWakeLock.release();
-                    }
-
-                    if (mFlashlightEnabled == true)
-                    {
-                    	FlashLightSwitch(true); // Toggle Flashlight ON
-                    }
-                    else
-                    {
-                    	FlashLightSwitch(false); // Toggle Flashlight OFF
                     }
 
                 }

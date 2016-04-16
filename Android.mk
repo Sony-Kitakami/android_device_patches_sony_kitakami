@@ -1,7 +1,7 @@
 LOCAL_PATH := device/patch/sony/kitakami
 
 VOLD_DIR := $(LOCAL_PATH)/patched/system/vold
-TORCH_DIR := $(LOCAL_PATH)/patched/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy
+TORCH_DIR := $(LOCAL_PATH)/patched/frameworks/base/packages/SystemUI/src/com/android/systemui
 
 ifeq ($(SOMC_PLATFORM), kitakami)
 
@@ -19,7 +19,11 @@ ifeq ($(SOMC_PLATFORM), kitakami)
 
 		$(shell echo "Applying torch patch" )
 
-		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/FlashlightController.java $(TORCH_DIR)/)
+		$(shell rm $(TORCH_DIR)/statusbar/policy/)
+		$(shell rm $(TORCH_DIR)/qs/tiles/)
+
+		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/statusbar/policy/FlashlightController.java $(TORCH_DIR)/statusbar/policy/)
+		$(shell cp $(LOCAL_PATH)/$(TORCH_DIR)/qs/tiles/FlashlightTile.java $(TORCH_DIR)/qs/tiles/)
 
 	endif
 
@@ -42,7 +46,8 @@ ifeq ($(wildcard $(LOCAL_PATH)/PATCHED.0)
 
 	$(shell echo "Reverting Flashlight patches")
 
-	$(shell rm $(TORCH_DIR)/FlashlightController.java)
+	$(shell rm $(TORCH_DIR)/statusbar/policy/)
+	$(shell rm $(TORCH_DIR)/qs/tiles/)
 
 	$(shell echo "Fetching unpatched versions")
 
