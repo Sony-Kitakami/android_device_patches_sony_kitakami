@@ -37,25 +37,15 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
             = new AnimationIcon(R.drawable.ic_signal_flashlight_disable_animation);
     private final FlashlightController mFlashlightController;
 
-    public Boolean toggleState = new Boolean(null);
-
     /* Function : flashLightSwitch(boolean switchState) */
-    /* Serves as an direct "Light Switch" by using /system/bin/torch-on or /system/bin/torch-off  which chainloads access to /sys/class/leds/torch-light1/brightness */
-    public void flashLightSwitch(boolean switchState) 
+    /* Serves as an direct "Light Switch" by using /system/bin/torch which chainloads access to /sys/class/leds/torch-light1/brightness */
+    public void flashLightSwitch() 
     {
         try
         {
         
-            if (switchState == true)
-            {
-                Log.i(TAG, "Torch ON");
-                Runtime.getRuntime().exec( "torch-on" ); // Sets Torch ON
-            }
-            else
-            {
-                Log.i(TAG, "Torch OFF");             
-                Runtime.getRuntime().exec( "torch-off" ); // Sets Torch OFF
-            }
+            Log.i(TAG, "Torch toggled");
+            Runtime.getRuntime().exec( "torch" ); // Toggles Torch
 
         } 
         
@@ -63,25 +53,6 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         {
             System.err.println("Problem executing torch");
             Log.e(TAG, "IOException ERROR! Problem toggling torch");
-        }
-    }
-
-    public boolean checkToggleState()
-    {
-        if (toggleState == false)
-        {
-            toggleState = true;
-            return toggleState;
-        }
-        else if (toggleState = true)
-        {
-            toggleState = false;
-            return toggleState;
-        }
-        else
-        {
-            toggleState = false;
-            return toggleState;
         }
     }
 
@@ -115,20 +86,10 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
         if (ActivityManager.isUserAMonkey()) {
             return;
         }
+        flashLightSwitch();
         MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
         boolean newState = !mState.value;
         refreshState(newState ? UserBoolean.USER_TRUE : UserBoolean.USER_FALSE);
-        checkToggleState ();
-        if (checkToggleState() == false)
-        {
-        	Log.i(TAG, "Toggle returns false");
-            flashLightSwitch(false);
-        }
-        else if (checkToggleState() == true)
-        {
-        	Log.i(TAG, "Toggle returns true");        	
-            flashLightSwitch(true);
-        }
     }
 
     @Override
