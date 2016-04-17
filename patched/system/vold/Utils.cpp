@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+/*======================================================*/
+/* WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! */
+/*======================================================*/
+
 #include "sehandle.h"
 #include "Utils.h"
 #include "Process.h"

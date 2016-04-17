@@ -14,6 +14,10 @@
  * limitations under the License
  */
 
+/*======================================================*/
+/* WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! */
+/*======================================================*/
+
 package com.android.systemui.qs.tiles;
 
 import android.app.ActivityManager;

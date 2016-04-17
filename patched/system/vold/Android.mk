@@ -1,3 +1,7 @@
+#======================================================#
+# WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! #
+#======================================================#
+
 LOCAL_PATH:= $(call my-dir)
 
 common_src_files := \
