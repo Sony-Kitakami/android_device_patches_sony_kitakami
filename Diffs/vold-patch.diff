@@ -1,0 +1,100 @@
+diff --git a/Android.mk b/Android.mk
+index f812755..4f8a7fd 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -1,3 +1,7 @@
++#======================================================#
++# WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! #
++#======================================================#
++
+ LOCAL_PATH:= $(call my-dir)
+ 
+ common_src_files := \
+@@ -78,6 +82,10 @@ common_static_libraries := \
+ vold_conlyflags := -std=c11
+ vold_cflags := -Werror -Wall -Wno-missing-field-initializers -Wno-unused-variable -Wno-unused-parameter
+ 
++ifeq ($(TARGET_SKIP_SETEXECCON_VOLD_CHECK), true)
++vold_cflags += -DSKIP_SETEXECCON_VOLD_CHECK
++endif
++
+ ifeq ($(TARGET_KERNEL_HAVE_EXFAT),true)
+ vold_cflags += -DCONFIG_KERNEL_HAVE_EXFAT
+ endif
+diff --git a/Utils.cpp b/Utils.cpp
+index 6ffdd7f..702ae3c 100644
+--- a/Utils.cpp
++++ b/Utils.cpp
+@@ -14,6 +14,10 @@
+  * limitations under the License.
+  */
+ 
++/*======================================================*/
++/* WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! */
++/*======================================================*/
++
+ #include "sehandle.h"
+ #include "Utils.h"
+ #include "Process.h"
+@@ -40,6 +44,9 @@
+ #include <sys/wait.h>
+ #include <sys/statvfs.h>
+ 
++#define LOG_TAG "Vold"
++#include <cutils/log.h>
++
+ #ifndef UMOUNT_NOFOLLOW
+ #define UMOUNT_NOFOLLOW    0x00000008  /* Don't follow symlink on umount */
+ #endif
+@@ -282,15 +289,25 @@ status_t ForkExecvp(const std::vector<std::string>& args, security_context_t con
+         }
+     }
+ 
++#ifndef SKIP_SETEXECCON_VOLD_CHECK
+     if (setexeccon(context)) {
+         LOG(ERROR) << "Failed to setexeccon";
+         abort();
+     }
++#endif
++
+     status_t res = android_fork_execvp(argc, argv, NULL, false, true);
++
++#ifndef SKIP_SETEXECCON_VOLD_CHECK
+     if (setexeccon(nullptr)) {
+         LOG(ERROR) << "Failed to setexeccon";
+         abort();
+     }
++#endif
++
++#ifdef SKIP_SETEXECCON_VOLD_CHECK
++    ALOGW("ForkExecvp setexeccon skipped!");
++#endif
+ 
+     free(argv);
+     return res;
+@@ -314,15 +331,25 @@ status_t ForkExecvp(const std::vector<std::string>& args,
+     }
+     output.clear();
+ 
++#ifndef SKIP_SETEXECCON_VOLD_CHECK
+     if (setexeccon(context)) {
+         LOG(ERROR) << "Failed to setexeccon";
+         abort();
+     }
++#endif
++
+     FILE* fp = popen(cmd.c_str(), "r");
++
++#ifndef SKIP_SETEXECCON_VOLD_CHECK
+     if (setexeccon(nullptr)) {
+         LOG(ERROR) << "Failed to setexeccon";
+         abort();
+     }
++#endif
++
++#ifdef SKIP_SETEXECCON_VOLD_CHECK
++    ALOGW("ForkExecvp (2) setexeccon skipped!");
++#endif
+ 
+     if (!fp) {
+         PLOG(ERROR) << "Failed to popen " << cmd;

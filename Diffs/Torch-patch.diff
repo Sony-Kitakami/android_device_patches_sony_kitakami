@@ -1,0 +1,70 @@
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/FlashlightTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/FlashlightTile.java
+index 21cbef2..09fd4d0 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/FlashlightTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/FlashlightTile.java
+@@ -14,6 +14,10 @@
+  * limitations under the License
+  */
+ 
++/*======================================================*/
++/* WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! */
++/*======================================================*/
++
+ package com.android.systemui.qs.tiles;
+ 
+ import android.app.ActivityManager;
+@@ -23,6 +27,10 @@ import com.android.systemui.R;
+ import com.android.systemui.qs.QSTile;
+ import com.android.systemui.statusbar.policy.FlashlightController;
+ 
++import android.util.Log;
++
++import java.io.*;
++
+ /** Quick settings tile: Control flashlight **/
+ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
+         FlashlightController.FlashlightListener {
+@@ -33,6 +41,25 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
+             = new AnimationIcon(R.drawable.ic_signal_flashlight_disable_animation);
+     private final FlashlightController mFlashlightController;
+ 
++    /* Function : flashLightSwitch(boolean switchState) */
++    /* Serves as an direct "Light Switch" by using /system/bin/torch which chainloads access to /sys/class/leds/torch-light1/brightness */
++    public void flashLightSwitch() 
++    {
++        try
++        {
++        
++            Log.i(TAG, "Torch toggled");
++            Runtime.getRuntime().exec( "torch" ); // Toggles Torch
++
++        } 
++        
++        catch (IOException e) 
++        {
++            System.err.println("Problem executing torch");
++            Log.e(TAG, "IOException ERROR! Problem toggling torch");
++        }
++    }
++
+     public FlashlightTile(Host host) {
+         super(host);
+         mFlashlightController = host.getFlashlightController();
+@@ -63,15 +90,15 @@ public class FlashlightTile extends QSTile<QSTile.BooleanState> implements
+         if (ActivityManager.isUserAMonkey()) {
+             return;
+         }
++        flashLightSwitch();
+         MetricsLogger.action(mContext, getMetricsCategory(), !mState.value);
+         boolean newState = !mState.value;
+         refreshState(newState ? UserBoolean.USER_TRUE : UserBoolean.USER_FALSE);
+-        mFlashlightController.setFlashlight(newState);
+     }
+ 
+     @Override
+     protected void handleUpdateState(BooleanState state, Object arg) {
+-        state.visible = mFlashlightController.isAvailable();
++        state.visible = true;
+         state.label = mHost.getContext().getString(R.string.quick_settings_flashlight_label);
+         if (arg instanceof UserBoolean) {
+             boolean value = ((UserBoolean) arg).value;
