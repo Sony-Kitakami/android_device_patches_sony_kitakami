@@ -14,9 +14,9 @@
  * limitations under the License
  */
 
-/*======================================================*/
-/* WARNING! THIS FILE HAS BEEN PATCHED BY A PATCHER !!! */
-/*======================================================*/
+/*=================================================================*/
+/* WARNING! THIS FILE HAS BEEN PATCHED BY THE KITAKAMI PATCHER !!! */
+/*=================================================================*/
 
 package com.android.systemui.qs.tiles;
 
