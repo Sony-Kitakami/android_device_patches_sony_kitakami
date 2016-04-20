@@ -20,7 +20,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
    
    if [ -d ${VOLD_DIR}/patchlist ]; then
 
-   		if grep -Fxq "Utils.cpp" ${VOLD_DIR}/patchlist then
+   		if (grep -Fq "Utils.cpp" ${VOLD_DIR}/patchlist); then
 
    			if [ $(cat ${VOLD_DIR}/patch-device) = "kitakami"]; then
    			
@@ -30,7 +30,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 			fi
 		fi
 
-		if grep -Fxq "Android.mk" ${VOLD_DIR}/patchlist then
+		if (grep -Fq "Android.mk" ${VOLD_DIR}/patchlist); then
 
 			if [ $(cat ${VOLD_DIR}/patch-device) = "kitakami"]; then
 
@@ -43,7 +43,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 	fi
 
 	if [ -d ${TORCH_DIR}/patchlist ]; then
-		if grep -Fxq "FlashlightTile.java" ${TORCH_DIR}/patchlist then
+		if (grep -Fq "FlashlightTile.java" ${TORCH_DIR}/patchlist); then
    			if [ $(cat ${TORCH_DIR}/patch-device) = "kitakami"]; then
 
    				# Revert original files

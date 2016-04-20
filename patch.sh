@@ -24,19 +24,18 @@ function make_patch_stamp
 if [ ! -f {LOCAL_PATH}/PATCHED ]; then
 
 	touch ${LOCAL_PATH}/PATCHED
-	mkdir ${LOCAL_PATH}/backup
 
 	echo "Applying Vold patch!"
 
-	if [ ! -f ${VOLD_DIR}/patchlist]
-		make_patch_stamp 'Utils.cpp Android.mk' '${VOLD_DIR}'
+	if [ ! -f ${VOLD_DIR}/patchlist ]; then
+		make_patch_stamp 'Utils.cpp Android.mk' ${VOLD_DIR}
 	fi
 
 	# Move original/untouched/un-patched files to backup dir
 	if [ ! -d ${RVRT_VOLD_DIR} ]; then
 
 		mkdir ${RVRT_VOLD_DIR}
-		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > README
+		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_VOLD_DIR}/README
 		mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/
 		mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/
 	
@@ -48,11 +47,15 @@ if [ ! -f {LOCAL_PATH}/PATCHED ]; then
 
 	echo "Applying torch patch!"
 
+	if [ ! -f ${TORCH_DIR}/patchlist ]; then
+		make_patch_stamp 'FlashlightTile.java' ${TORCH_DIR}
+	fi
+
 	# Move original/untouched/un-patched files to backup dir
 	if [ ! -d ${RVRT_TORCH_DIR} ]; then
 
 		mkdir ${RVRT_TORCH_DIR}
-		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > README
+		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_TORCH_DIR}/README
 		mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/
 	
 	fi
