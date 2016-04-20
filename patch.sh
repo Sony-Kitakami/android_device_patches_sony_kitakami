@@ -4,10 +4,10 @@ LOCAL_PATH=$(dirname $(readlink -f $0))
 TOP=$LOCAL_PATH/../../../..
 
 TORCH_DIR=${TOP}/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles
-RVRT_TORCH_DIR=${TORCH_DIR}/backup
+RVRT_TORCH_DIR=${TORCH_DIR}/.backup
 
 VOLD_DIR=${TOP}/system/vold
-RVRT_VOLD_DIR=${VOLD_DIR}/backup
+RVRT_VOLD_DIR=${VOLD_DIR}/.backup
 
 PATCHED_VOLD_DIR=${LOCAL_PATH}/patched/system/vold
 PATCHED_TORCH_DIR=${LOCAL_PATH}/patched/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles
@@ -15,19 +15,19 @@ PATCHED_TORCH_DIR=${LOCAL_PATH}/patched/frameworks/base/packages/SystemUI/src/co
 function make_patch_stamp
 {
 	# Echo patch list ($1 = Files, $2 = path/to/patchlist)
-	echo "$1" > $2/patchlist
+	echo "$1" > $2/.patchlist
 
 	# Echo device mark 
-	echo "kitakami" > $2/patch-device
+	echo "kitakami" > $2/.patch-device
 }
 
-if [ ! -f {LOCAL_PATH}/PATCHED ]; then
+if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
-	touch ${LOCAL_PATH}/PATCHED
+	echo 1 > ${LOCAL_PATH}/PATCHED
 
 	echo "Applying Vold patch!"
 
-	if [ ! -f ${VOLD_DIR}/patchlist ]; then
+	if [ ! -f ${VOLD_DIR}/.patchlist ]; then
 		make_patch_stamp 'Utils.cpp Android.mk' ${VOLD_DIR}
 	fi
 
@@ -47,7 +47,7 @@ if [ ! -f {LOCAL_PATH}/PATCHED ]; then
 
 	echo "Applying torch patch!"
 
-	if [ ! -f ${TORCH_DIR}/patchlist ]; then
+	if [ ! -f ${TORCH_DIR}/.patchlist ]; then
 		make_patch_stamp 'FlashlightTile.java' ${TORCH_DIR}
 	fi
 
@@ -60,7 +60,7 @@ if [ ! -f {LOCAL_PATH}/PATCHED ]; then
 	
 	fi
 
-	# Moved patched files to CM source
+	# Copy patched files to CM source
 	cp ${PATCHED_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/
 
 fi

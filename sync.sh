@@ -4,10 +4,10 @@ LOCAL_PATH=$(dirname $(readlink -f $0))
 TOP=${LOCAL_PATH}/../../../..
 
 TORCH_DIR=${TOP}/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles
-RVRT_TORCH_DIR=${TORCH_DIR}/backup
+RVRT_TORCH_DIR=${TORCH_DIR}/.backup
 
 VOLD_DIR=${TOP}/system/vold
-RVRT_VOLD_DIR=${VOLD_DIR}/backup
+RVRT_VOLD_DIR=${VOLD_DIR}/.backup
 
 PATCHED_VOLD_DIR=${LOCAL_PATH}/patched/system/vold
 PATCHED_TORCH_DIR=${LOCAL_PATH}/patched/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles
