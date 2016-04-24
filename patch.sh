@@ -36,8 +36,8 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
 		mkdir ${RVRT_VOLD_DIR}
 		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_VOLD_DIR}/README
-		mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/
-		mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/
+		mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/Utils.cpp.backup
+		mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/Android.mk.backup
 	
 	fi
 
@@ -56,7 +56,7 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
 		mkdir ${RVRT_TORCH_DIR}
 		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_TORCH_DIR}/README
-		mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/
+		mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/FlashlightTile.java.backup
 	
 	fi
 

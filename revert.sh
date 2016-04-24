@@ -25,7 +25,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
    			if [ $(cat ${VOLD_DIR}/.patch-device) = "kitakami" ]; then
    			
    				# Revert original files
-				mv ${RVRT_VOLD_DIR}/Utils.cpp ${VOLD_DIR}/
+				mv ${RVRT_VOLD_DIR}/Utils.cpp.backup ${VOLD_DIR}/Utils.cpp
 			
 			fi
 		fi
@@ -34,7 +34,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 
 			if [ $(cat ${VOLD_DIR}/.patch-device) = "kitakami" ]; then
 
-				mv ${RVRT_VOLD_DIR}/Android.mk ${VOLD_DIR}/
+				mv ${RVRT_VOLD_DIR}/Android.mk.backup ${VOLD_DIR}/Android.mk
 
 				rm -R ${RVRT_VOLD_DIR}
 
@@ -50,7 +50,7 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
    			if [ $(cat ${TORCH_DIR}/.patch-device) = "kitakami" ]; then
 
    				# Revert original files
-				mv ${RVRT_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/
+				mv ${RVRT_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/FlashlightTile.java.backup
 				rm -R ${RVRT_TORCH_DIR}
 
 				rm ${TORCH_DIR}/.patchlist

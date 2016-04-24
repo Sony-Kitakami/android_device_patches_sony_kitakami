@@ -15,18 +15,18 @@ PATCHED_TORCH_DIR=${LOCAL_PATH}/patched/frameworks/base/packages/SystemUI/src/co
 echo "Checking if patches have been overwritten by updates"
 
 if ! (grep -Fq "THIS FILE HAS BEEN PATCHED" system/vold/Utils.cpp); then
-	mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/
+	mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/Utils.cpp.backup
 	cp ${PATCHED_VOLD_DIR}/Utils.cpp ${VOLD_DIR}/
 fi
 
 if ! (grep -Fq "THIS FILE HAS BEEN PATCHED" ${VOLD_DIR}/Android.mk); then
-	mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/
+	mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/Android.mk.backup
 	cp ${PATCHED_VOLD_DIR}/Android.mk ${VOLD_DIR}/
 fi
 
 #-----------------------------------------------------------------------------------
 
 if ! (grep -Fq "THIS FILE HAS BEEN PATCHED" ${TORCH_DIR}/FlashlightTile.java); then
-	mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/
+	mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/FlashlightTile.java.backup
 	cp ${PATCHED_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/
 fi
