@@ -27,9 +27,7 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
 	echo "Applying Vold patch!"
 
-	if [ ! -f ${VOLD_DIR}/.patchlist ]; then
-		make_patch_stamp 'Utils.cpp Android.mk' ${VOLD_DIR}
-	fi
+	make_patch_stamp 'Utils.cpp Android.mk' ${VOLD_DIR}
 
 	# Move original/untouched/un-patched files to backup dir
 	if [ ! -d ${RVRT_VOLD_DIR} ]; then
