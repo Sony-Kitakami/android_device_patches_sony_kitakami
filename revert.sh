@@ -12,7 +12,7 @@ RVRT_VOLD_DIR=${VOLD_DIR}/.backup
 PATCHED_VOLD_DIR=${LOCAL_PATH}/patched/system/vold
 PATCHED_TORCH_DIR=${LOCAL_PATH}/patched/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles
 
-if [ -f ${LOCAL_PATH}/PATCHED ]; then
+if [ $(cat ${LOCAL_PATH}/PATCHED) = "1" ]; then
  
 	echo "Not building kitakami! Reverting kitakami patches!"
    

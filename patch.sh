@@ -45,9 +45,7 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
 	echo "Applying torch patch!"
 
-	if [ ! -f ${TORCH_DIR}/.patchlist ]; then
-		make_patch_stamp 'FlashlightTile.java' ${TORCH_DIR}
-	fi
+	make_patch_stamp 'FlashlightTile.java' ${TORCH_DIR}
 
 	# Move original/untouched/un-patched files to backup dir
 	if [ ! -d ${RVRT_TORCH_DIR} ]; then
@@ -55,8 +53,8 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 		mkdir ${RVRT_TORCH_DIR}
 		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_TORCH_DIR}/README
 		mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/FlashlightTile.java.backup
-	
-	fi
+
+	fi	
 
 	# Copy patched files to CM source
 	cp ${PATCHED_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/
