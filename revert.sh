@@ -28,7 +28,15 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 				mv ${RVRT_VOLD_DIR}/Utils.cpp.backup ${VOLD_DIR}/Utils.cpp
 			
 			fi
+		
+		else
+
+			mv ${RVRT_VOLD_DIR}/Utils.cpp.backup ${VOLD_DIR}/Utils.cpp
+
 		fi
+
+
+
 
 		if (grep -Fq "Android.mk" ${VOLD_DIR}/.patchlist); then
 
@@ -42,6 +50,16 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 				rm ${VOLD_DIR}/.patch-device
 
 			fi
+
+		else
+
+			mv ${RVRT_VOLD_DIR}/Utils.cpp.backup ${VOLD_DIR}/Utils.cpp
+
+			# Only delete if empty
+			if [ ! "$(ls -A ${RVRT_VOLD_DIR})" ]; then
+				rm -R ${RVRT_VOLD_DIR}
+			fi
+
 		fi
 	fi
 
@@ -58,5 +76,14 @@ if [ -f ${LOCAL_PATH}/PATCHED ]; then
 
 			fi
 		fi
+
+	else
+
+			mv ${RVRT_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/FlashlightTile.java.backup
+
+			if [ ! "$(ls -A ${RVRT_TORCH_DIR})" ]; then
+				rm -R ${RVRT_TORCH_DIR}
+			fi
+
 	fi
 fi
